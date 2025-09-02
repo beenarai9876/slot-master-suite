@@ -7,6 +7,14 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Layout from "@/components/Layout";
 import Dashboard from "@/pages/Dashboard";
 import Supervisors from "@/pages/Supervisors";
+import Reports from "@/pages/Reports";
+import AddUser from "@/pages/AddUser";
+import AddEquipment from "@/pages/AddEquipment";
+import Profile from "@/pages/Profile";
+import Instructions from "@/pages/Instructions";
+import EquipmentBooking from "@/pages/EquipmentBooking";
+import MyStudents from "@/pages/MyStudents";
+import EquipmentCatalog from "@/pages/EquipmentCatalog";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,14 +30,14 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/supervisors" element={<Supervisors />} />
-              <Route path="/reports" element={<PlaceholderPage title="Reports" />} />
-              <Route path="/add-user" element={<PlaceholderPage title="Add User" />} />
-              <Route path="/add-equipment" element={<PlaceholderPage title="Add Equipment" />} />
-              <Route path="/profile" element={<PlaceholderPage title="Profile" />} />
-              <Route path="/instructions" element={<PlaceholderPage title="Instructions" />} />
-              <Route path="/booking" element={<PlaceholderPage title="Equipment Booking" />} />
-              <Route path="/students" element={<PlaceholderPage title="My Students" />} />
-              <Route path="/catalog" element={<PlaceholderPage title="Equipment Catalog" />} />
+              <Route path="/reports" element={<Reports />} />
+              <Route path="/add-user" element={<AddUser />} />
+              <Route path="/add-equipment" element={<AddEquipment />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/instructions" element={<Instructions />} />
+              <Route path="/booking" element={<EquipmentBooking />} />
+              <Route path="/students" element={<MyStudents />} />
+              <Route path="/catalog" element={<EquipmentCatalog />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
