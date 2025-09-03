@@ -29,19 +29,24 @@ import {
   Eye,
   CreditCard,
   Plus,
-  UserCheck
+  UserCheck,
+  UserX,
+  ArrowRightLeft
 } from 'lucide-react';
 import { MOCK_STUDENTS, MOCK_BOOKINGS } from '@/data/mockBookings';
 import { toast } from '@/hooks/use-toast';
+import StudentTransferModal from '@/components/StudentTransferModal';
+import CreditAllocationModal from '@/components/CreditAllocationModal';
 
 const MyStudents: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStudent, setSelectedStudent] = useState<any>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isCreditModalOpen, setIsCreditModalOpen] = useState(false);
-  const [creditAmount, setCreditAmount] = useState<number>(0);
+  const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
+  const [students, setStudents] = useState(MOCK_STUDENTS);
 
-  const filteredStudents = MOCK_STUDENTS.filter(student =>
+  const filteredStudents = students.filter(student =>
     student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
     student.department.toLowerCase().includes(searchTerm.toLowerCase())
@@ -54,27 +59,35 @@ const MyStudents: React.FC = () => {
 
   const handleAllocateCredits = (student: any) => {
     setSelectedStudent(student);
-    setCreditAmount(0);
     setIsCreditModalOpen(true);
   };
 
-  const handleCreditAllocation = () => {
-    if (creditAmount <= 0) {
-      toast({
-        title: "Invalid Amount",
-        description: "Please enter a valid credit amount",
-        variant: "destructive"
-      });
-      return;
-    }
+  const handleTransferStudent = (student: any) => {
+    setSelectedStudent(student);
+    setIsTransferModalOpen(true);
+  };
+
+  const handleCreditAllocation = (studentId: string, amount: number, notes: string) => {
+    // Update student's credit in the local state (in real app, this would be an API call)
+    setStudents(prev => prev.map(student => 
+      student.id === studentId 
+        ? { ...student, creditUsed: student.creditUsed + amount }
+        : student
+    ));
+  };
+
+  const handleStudentTransfer = (studentId: string, newSupervisorId: string, newSupervisorName: string) => {
+    // Update student's supervisor in the local state (in real app, this would be an API call)
+    setStudents(prev => prev.map(student => 
+      student.id === studentId 
+        ? { ...student, supervisorId: newSupervisorId, supervisorName: newSupervisorName }
+        : student
+    ));
 
     toast({
-      title: "Credits Allocated",
-      description: `$${creditAmount} credits allocated to ${selectedStudent?.name}`,
+      title: "Student Transferred",
+      description: `Student has been successfully transferred to ${newSupervisorName}`,
     });
-
-    setIsCreditModalOpen(false);
-    setCreditAmount(0);
   };
 
   const getInitials = (name: string) => {
@@ -91,10 +104,10 @@ const MyStudents: React.FC = () => {
   };
 
   const getTotalStats = () => {
-    const totalStudents = MOCK_STUDENTS.length;
-    const totalCreditsUsed = MOCK_STUDENTS.reduce((sum, student) => sum + student.creditUsed, 0);
-    const totalBookings = MOCK_STUDENTS.reduce((sum, student) => sum + student.totalBookings, 0);
-    const activeBookings = MOCK_STUDENTS.reduce((sum, student) => sum + student.activeBookings, 0);
+    const totalStudents = students.length;
+    const totalCreditsUsed = students.reduce((sum, student) => sum + student.creditUsed, 0);
+    const totalBookings = students.reduce((sum, student) => sum + student.totalBookings, 0);
+    const activeBookings = students.reduce((sum, student) => sum + student.activeBookings, 0);
 
     return { totalStudents, totalCreditsUsed, totalBookings, activeBookings };
   };
@@ -258,6 +271,14 @@ const MyStudents: React.FC = () => {
                           <CreditCard className="h-4 w-4 mr-1" />
                           Credits
                         </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleTransferStudent(student)}
+                        >
+                          <ArrowRightLeft className="h-4 w-4 mr-1" />
+                          Transfer
+                        </Button>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -398,49 +419,20 @@ const MyStudents: React.FC = () => {
       </Dialog>
 
       {/* Credit Allocation Modal */}
-      <Dialog open={isCreditModalOpen} onOpenChange={setIsCreditModalOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Allocate Credits</DialogTitle>
-          </DialogHeader>
+      <CreditAllocationModal
+        isOpen={isCreditModalOpen}
+        onClose={() => setIsCreditModalOpen(false)}
+        student={selectedStudent}
+        onAllocate={handleCreditAllocation}
+      />
 
-          <div className="space-y-4">
-            <div className="p-4 bg-muted/50 rounded-lg">
-              <p className="font-medium">{selectedStudent?.name}</p>
-              <p className="text-sm text-muted-foreground">{selectedStudent?.email}</p>
-              <p className="text-sm text-muted-foreground">Current usage: ${selectedStudent?.creditUsed}</p>
-            </div>
-
-            <div className="space-y-2">
-              <label htmlFor="creditAmount" className="text-sm font-medium">
-                Credit Amount ($)
-              </label>
-              <Input
-                id="creditAmount"
-                type="number"
-                min="0"
-                step="1"
-                value={creditAmount}
-                onChange={(e) => setCreditAmount(parseInt(e.target.value) || 0)}
-                placeholder="Enter amount"
-              />
-            </div>
-
-            <div className="flex justify-end gap-3">
-              <Button
-                variant="outline"
-                onClick={() => setIsCreditModalOpen(false)}
-              >
-                Cancel
-              </Button>
-              <Button onClick={handleCreditAllocation} className="bg-gradient-primary hover:opacity-90">
-                <CreditCard className="h-4 w-4 mr-2" />
-                Allocate Credits
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* Student Transfer Modal */}
+      <StudentTransferModal
+        isOpen={isTransferModalOpen}
+        onClose={() => setIsTransferModalOpen(false)}
+        student={selectedStudent}
+        onTransfer={handleStudentTransfer}
+      />
     </div>
   );
 };

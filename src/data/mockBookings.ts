@@ -166,5 +166,41 @@ export const MOCK_STUDENTS = [
     creditUsed: 85,
     totalBookings: 5,
     activeBookings: 0
+  },
+  {
+    id: '6',
+    name: 'Alex Johnson',
+    email: 'alex.johnson@university.edu',
+    phone: '+1-555-0204',
+    department: 'Biology',
+    supervisorId: '3',
+    supervisorName: 'Dr. Emily Rodriguez',
+    creditUsed: 120,
+    totalBookings: 8,
+    activeBookings: 1
+  },
+  {
+    id: '7',
+    name: 'Emma Wilson',
+    email: 'emma.wilson@university.edu',
+    phone: '+1-555-0205',
+    department: 'Chemistry',
+    supervisorId: '4',
+    supervisorName: 'Prof. David Kim',
+    creditUsed: 240,
+    totalBookings: 15,
+    activeBookings: 3
+  },
+  {
+    id: '8',
+    name: 'David Brown',
+    email: 'david.brown@university.edu',
+    phone: '+1-555-0206',
+    department: 'Physics',
+    supervisorId: '5',
+    supervisorName: 'Dr. Lisa Thompson',
+    creditUsed: 190,
+    totalBookings: 11,
+    activeBookings: 2
   }
 ];

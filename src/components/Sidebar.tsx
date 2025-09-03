@@ -34,7 +34,6 @@ const Sidebar: React.FC = () => {
   ];
 
   const supervisorMenuItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
     { icon: Calendar, label: 'Equipment Booking', path: '/booking' },
     { icon: Users, label: 'My Students', path: '/students' },
     { icon: FileBarChart, label: 'Reports', path: '/reports' },
