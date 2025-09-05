@@ -34,14 +34,17 @@ const Sidebar: React.FC = () => {
   ];
 
   const supervisorMenuItems = [
+    { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
     { icon: Calendar, label: 'Equipment Booking', path: '/booking' },
     { icon: Users, label: 'My Students', path: '/students' },
     { icon: FileBarChart, label: 'Reports', path: '/reports' },
+    { icon: BookOpen, label: 'Instructions', path: '/instructions' },
     { icon: User, label: 'Profile', path: '/profile' },
   ];
 
   const studentMenuItems = [
-    { icon: LayoutDashboard, label: 'My Bookings', path: '/' },
+    { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
+    { icon: Calendar, label: 'My Bookings', path: '/bookings' },
     { icon: Search, label: 'Equipment Catalog', path: '/catalog' },
     { icon: BookOpen, label: 'Instructions', path: '/instructions' },
     { icon: User, label: 'Profile', path: '/profile' },

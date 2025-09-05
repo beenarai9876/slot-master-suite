@@ -16,7 +16,8 @@ export const MOCK_BOOKINGS: Booking[] = [
     endTime: '10:00',
     status: 'approved',
     cost: 50,
-    createdAt: '2024-01-10T10:00:00Z'
+    createdAt: '2024-01-10T10:00:00Z',
+    bookedAt: '2024-01-10 10:00'
   },
   {
     id: '2',
@@ -33,7 +34,8 @@ export const MOCK_BOOKINGS: Booking[] = [
     endTime: '20:00',
     status: 'pending',
     cost: 75,
-    createdAt: '2024-01-12T14:30:00Z'
+    createdAt: '2024-01-12T14:30:00Z',
+    bookedAt: '2024-01-12 14:30'
   },
   {
     id: '3',
@@ -50,7 +52,27 @@ export const MOCK_BOOKINGS: Booking[] = [
     endTime: '15:00',
     status: 'completed',
     cost: 40,
-    createdAt: '2024-01-08T09:15:00Z'
+    createdAt: '2024-01-08T09:15:00Z',
+    bookedAt: '2024-01-08 09:15'
+  },
+  {
+    id: '4',
+    equipmentId: '1',
+    equipmentName: 'Microscope Pro X1',
+    studentId: '4',
+    studentName: 'Mike Anderson',
+    supervisorId: '2',
+    supervisorName: 'John Supervisor',
+    slotId: 'afternoon-1',
+    slotName: 'Afternoon (12-2 PM)',
+    date: '2024-01-25',
+    startTime: '12:00',
+    endTime: '14:00',
+    status: 'rejected',
+    cost: 50,
+    createdAt: '2024-01-20T15:30:00Z',
+    bookedAt: '2024-01-20 15:30',
+    rejectionReason: 'Equipment maintenance scheduled during requested time'
   }
 ];
 

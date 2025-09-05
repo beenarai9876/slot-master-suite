@@ -37,6 +37,8 @@ export interface Booking {
   status: 'pending' | 'approved' | 'rejected' | 'completed';
   cost: number;
   createdAt: string;
+  bookedAt?: string;
+  rejectionReason?: string;
 }
 
 export interface Report {

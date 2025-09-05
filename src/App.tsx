@@ -14,6 +14,7 @@ import Profile from "@/pages/Profile";
 import Instructions from "@/pages/Instructions";
 import EquipmentBooking from "@/pages/EquipmentBooking";
 import MyStudents from "@/pages/MyStudents";
+import MyBookings from "@/pages/MyBookings";
 import EquipmentCatalog from "@/pages/EquipmentCatalog";
 import NotFound from "./pages/NotFound";
 
@@ -38,6 +39,7 @@ const App = () => (
               <Route path="/booking" element={<EquipmentBooking />} />
               <Route path="/students" element={<MyStudents />} />
               <Route path="/catalog" element={<EquipmentCatalog />} />
+              <Route path="/bookings" element={<MyBookings />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

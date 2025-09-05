@@ -40,14 +40,72 @@ const EquipmentBooking: React.FC = () => {
 
   // Mock available slots for selected date and equipment
   const availableSlots = [
-    { id: 'morning-1', name: 'Early Morning (8-10 AM)', available: true, cost: 50 },
-    { id: 'morning-2', name: 'Morning (10-12 PM)', available: false, cost: 50 },
-    { id: 'afternoon-1', name: 'Afternoon (12-2 PM)', available: true, cost: 60 },
-    { id: 'afternoon-2', name: 'Afternoon (2-4 PM)', available: true, cost: 60 },
-    { id: 'evening-1', name: 'Evening (4-6 PM)', available: false, cost: 70 },
-    { id: 'evening-2', name: 'Evening (6-8 PM)', available: true, cost: 70 },
-    { id: 'night-1', name: 'Night (8-10 PM)', available: true, cost: 80 },
+    { id: 'morning-1', name: 'Early Morning (8-10 AM)', available: true, cost: 50, booked: false },
+    { id: 'morning-2', name: 'Morning (10-12 PM)', available: false, cost: 50, booked: true },
+    { id: 'afternoon-1', name: 'Afternoon (12-2 PM)', available: true, cost: 60, booked: false },
+    { id: 'afternoon-2', name: 'Afternoon (2-4 PM)', available: true, cost: 60, booked: false },
+    { id: 'evening-1', name: 'Evening (4-6 PM)', available: false, cost: 70, booked: true },
+    { id: 'evening-2', name: 'Evening (6-8 PM)', available: true, cost: 70, booked: false },
+    { id: 'night-1', name: 'Night (8-10 PM)', available: true, cost: 80, booked: false },
   ];
+
+  // Mock equipment availability calendar data
+  const getEquipmentAvailability = (date: Date) => {
+    const dateStr = date.toDateString();
+    // Simulate different availability patterns
+    const dayOfWeek = date.getDay();
+    
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+      return 'unavailable'; // Weekends unavailable
+    }
+    
+    // Check if there are any bookings for this date
+    const hasBookings = MOCK_BOOKINGS.some(booking => 
+      booking.date === date.toISOString().split('T')[0]
+    );
+    
+    if (hasBookings) {
+      return 'partial'; // Some slots booked
+    }
+    
+    return 'available'; // Fully available
+  };
+
+  // Custom day renderer for calendar
+  const DayContent = ({ date, ...props }: any) => {
+    if (!selectedEquipment) return <div {...props}>{date.getDate()}</div>;
+    
+    const availability = getEquipmentAvailability(date);
+    const isSelected = selectedDate?.toDateString() === date.toDateString();
+    
+    let bgColor = '';
+    switch (availability) {
+      case 'available':
+        bgColor = isSelected ? 'bg-success text-success-foreground' : 'hover:bg-success/20 text-success';
+        break;
+      case 'partial':
+        bgColor = isSelected ? 'bg-warning text-warning-foreground' : 'hover:bg-warning/20 text-warning';
+        break;
+      case 'unavailable':
+        bgColor = 'bg-destructive/10 text-destructive cursor-not-allowed opacity-50';
+        break;
+    }
+    
+    return (
+      <div 
+        {...props}
+        className={`relative w-full h-full flex items-center justify-center rounded-md transition-colors ${bgColor}`}
+      >
+        {date.getDate()}
+        {availability !== 'unavailable' && (
+          <div className={`absolute bottom-0.5 right-0.5 w-1.5 h-1.5 rounded-full ${
+            availability === 'available' ? 'bg-success' : 
+            availability === 'partial' ? 'bg-warning' : 'bg-destructive'
+          }`} />
+        )}
+      </div>
+    );
+  };
 
   const handleBooking = () => {
     if (!selectedEquipment || !selectedSlot || !selectedStudent || !selectedDate) {
@@ -79,9 +137,9 @@ const EquipmentBooking: React.FC = () => {
   };
 
   const getSlotStatus = (available: boolean, booked: boolean = false) => {
-    if (booked) return { color: 'bg-destructive/10 text-destructive border-destructive/20', text: 'Booked' };
-    if (available) return { color: 'bg-success/10 text-success border-success/20', text: 'Available' };
-    return { color: 'bg-muted/10 text-muted-foreground border-muted/20', text: 'Unavailable' };
+    if (booked) return { color: 'bg-destructive/10 text-destructive border-destructive/20', text: 'Booked', icon: XCircle };
+    if (available) return { color: 'bg-success/10 text-success border-success/20', text: 'Available', icon: CheckCircle };
+    return { color: 'bg-muted/10 text-muted-foreground border-muted/20', text: 'Unavailable', icon: AlertCircle };
   };
 
   return (
@@ -111,7 +169,13 @@ const EquipmentBooking: React.FC = () => {
                   mode="single"
                   selected={selectedDate}
                   onSelect={setSelectedDate}
-                  disabled={(date) => date < new Date()}
+                  disabled={(date) => {
+                    const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+                    return date < new Date() || (selectedEquipment && isWeekend);
+                  }}
+                  components={{
+                    DayContent: selectedEquipment ? DayContent : undefined
+                  }}
                   className="rounded-md border pointer-events-auto"
                 />
               </div>
@@ -150,10 +214,34 @@ const EquipmentBooking: React.FC = () => {
                   </Select>
                 </div>
 
-                {selectedDate && (
-                  <div className="mt-4 p-3 bg-muted/50 rounded-lg">
-                    <p className="text-sm font-medium">Selected Date</p>
-                    <p className="text-lg">{selectedDate.toDateString()}</p>
+                {selectedDate && selectedEquipment && (
+                  <div className="mt-4 space-y-3">
+                    <div className="p-3 bg-muted/50 rounded-lg">
+                      <p className="text-sm font-medium">Selected Equipment</p>
+                      <p className="text-lg">{MOCK_EQUIPMENT.find(e => e.id === selectedEquipment)?.name}</p>
+                    </div>
+                    <div className="p-3 bg-muted/50 rounded-lg">
+                      <p className="text-sm font-medium">Selected Date</p>
+                      <p className="text-lg">{selectedDate.toDateString()}</p>
+                    </div>
+                    {/* Calendar Legend */}
+                    <div className="space-y-2">
+                      <p className="text-sm font-medium">Availability Legend:</p>
+                      <div className="flex flex-wrap gap-2 text-xs">
+                        <div className="flex items-center gap-1">
+                          <div className="w-3 h-3 bg-success rounded-full"></div>
+                          <span>Available</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-3 h-3 bg-warning rounded-full"></div>
+                          <span>Partial</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-3 h-3 bg-destructive rounded-full"></div>
+                          <span>Unavailable</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
@@ -175,7 +263,8 @@ const EquipmentBooking: React.FC = () => {
             ) : (
               <div className="space-y-3">
                 {availableSlots.map(slot => {
-                  const status = getSlotStatus(slot.available);
+                  const status = getSlotStatus(slot.available, slot.booked);
+                  const StatusIcon = status.icon;
                   return (
                     <div
                       key={slot.id}
@@ -188,7 +277,8 @@ const EquipmentBooking: React.FC = () => {
                     >
                       <div className="flex items-center justify-between mb-2">
                         <span className="font-medium text-sm">{slot.name}</span>
-                        <Badge className={`${status.color} border text-xs`}>
+                        <Badge className={`${status.color} border text-xs flex items-center gap-1`}>
+                          <StatusIcon className="h-3 w-3" />
                           {status.text}
                         </Badge>
                       </div>
