@@ -400,7 +400,7 @@ const Reports: React.FC = () => {
       </Tabs>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      {/* <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -448,7 +448,7 @@ const Reports: React.FC = () => {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </div> */}
     </div>
   );
 };
