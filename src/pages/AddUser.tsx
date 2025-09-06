@@ -137,7 +137,7 @@ const AddUser: React.FC = () => {
         </p>
       </div>
 
-      <div className="max-w-2xl">
+      <div className="max-w-2xl mx-auto" /*Align attribute - text over the text box*/>
         <Card>
           <CardHeader>
             <CardTitle>User Information</CardTitle>
@@ -220,13 +220,13 @@ const AddUser: React.FC = () => {
                   <SelectContent>
                     <SelectItem value="admin">Admin</SelectItem>
                     <SelectItem value="supervisor">Supervisor</SelectItem>
-                    <SelectItem value="student">Student</SelectItem>
+                    {/* <SelectItem value="student">Student</SelectItem> */}
                   </SelectContent>
                 </Select>
               </div>
 
               {/* Student-specific fields */}
-              {formData.userType === 'student' && (
+              {/* {formData.userType === 'student' && (
                 <div className="space-y-4 p-4 bg-muted/50 rounded-lg">
                   <h4 className="font-medium text-sm">Student Settings</h4>
                   <div className="space-y-2">
@@ -250,10 +250,10 @@ const AddUser: React.FC = () => {
                     </Select>
                   </div>
                 </div>
-              )}
+              )} */}
 
               {/* Supervisor-specific fields */}
-              {formData.userType === 'supervisor' && (
+              {/* {formData.userType === 'supervisor' && (
                 <div className="space-y-4 p-4 bg-muted/50 rounded-lg">
                   <h4 className="font-medium text-sm">Supervisor Settings</h4>
                   <div className="space-y-2">
@@ -268,7 +268,7 @@ const AddUser: React.FC = () => {
                     />
                   </div>
                 </div>
-              )}
+              )} */}
 
               {/* Form Actions */}
               <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t">
@@ -316,7 +316,7 @@ const AddUser: React.FC = () => {
       </div>
 
       {/* Help Card */}
-      <Card className="max-w-2xl">
+      <Card className="max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle className="text-lg">User Role Information</CardTitle>
         </CardHeader>
@@ -333,10 +333,9 @@ const AddUser: React.FC = () => {
               <h4 className="font-medium text-sm">Supervisor</h4>
               <p className="text-sm text-muted-foreground">
                 Can manage students, approve bookings, and access department reports. 
-                Requires initial credit allocation.
               </p>
             </div>
-            
+        
             <div className="space-y-2">
               <h4 className="font-medium text-sm">Student</h4>
               <p className="text-sm text-muted-foreground">
