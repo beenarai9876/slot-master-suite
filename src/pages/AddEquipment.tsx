@@ -173,7 +173,7 @@ const AddEquipment: React.FC = () => {
         </p>
       </div>
 
-      <div className="max-w-4xl">
+      <div className="max-w-4xl mx-auto">
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Information */}
           <Card>
@@ -242,7 +242,7 @@ const AddEquipment: React.FC = () => {
           {/* Time Slots */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center justify-between">
+              <CardTitle className="flex items-center justify-between mx">
                 <span>Available Time Slots</span>
                 <Button
                   type="button"
