@@ -16,7 +16,8 @@ import {
   BookOpen,
   Search,
   LogOut,
-  ChevronRight
+  ChevronRight,
+  Settings
 } from 'lucide-react';
 
 const Sidebar: React.FC = () => {
@@ -29,6 +30,7 @@ const Sidebar: React.FC = () => {
     { icon: FileBarChart, label: 'Reports', path: '/reports' },
     { icon: UserPlus, label: 'Add User', path: '/add-user' },
     { icon: Wrench, label: 'Add Equipment', path: '/add-equipment' },
+    { icon: Settings, label: 'Settings', path: '/settings' },
     { icon: User, label: 'Profile', path: '/profile' },
     { icon: FileEdit, label: 'Instructions', path: '/instructions' },
   ];

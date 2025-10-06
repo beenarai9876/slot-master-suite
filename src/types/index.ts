@@ -75,3 +75,29 @@ export interface Notification {
   read: boolean;
   createdAt: string;
 }
+
+export interface Holiday {
+  id: string;
+  name: string;
+  date: string;
+  type: 'full' | 'half';
+  description?: string;
+}
+
+export interface BookingRule {
+  id: string;
+  name: string;
+  type: 'weekday' | 'time_range' | 'holiday';
+  value: string;
+  enabled: boolean;
+  description?: string;
+}
+
+export interface MaintenanceBreak {
+  id: string;
+  name: string;
+  startTime: string;
+  endTime: string;
+  days: string[];
+  enabled: boolean;
+}

@@ -16,6 +16,7 @@ import EquipmentBooking from "@/pages/EquipmentBooking";
 import MyStudents from "@/pages/MyStudents";
 import MyBookings from "@/pages/MyBookings";
 import EquipmentCatalog from "@/pages/EquipmentCatalog";
+import Settings from "@/pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
               <Route path="/reports" element={<Reports />} />
               <Route path="/add-user" element={<AddUser />} />
               <Route path="/add-equipment" element={<AddEquipment />} />
+              <Route path="/settings" element={<Settings />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/instructions" element={<Instructions />} />
               <Route path="/booking" element={<EquipmentBooking />} />
